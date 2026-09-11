@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ...utils.plugin import BasePlugin
+from .workflow import run_pt, run_sft
 
 
-class OptimizerPlugin(BasePlugin):
-    pass
+__all__ = ["run_pt", "run_sft"]

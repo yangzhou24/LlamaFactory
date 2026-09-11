@@ -71,6 +71,25 @@ MCA_SUPPORTED_MODELS = {
     "qwen3_next",
     "qwen3_5",
     "qwen3_5_moe",
+    "qwen3_5_moe_text",
+    "qwen3_5_text",
+}
+
+# Text LLM model_types supported by the Megatron Bridge PT/SFT path (gpt_step).
+# Multimodal / audio / omni architectures are excluded in v0.
+MEGATRON_BRIDGE_SUPPORTED_MODELS = {
+    "deepseek_v3",
+    "deepseek_v4",
+    "llama",
+    "mistral",
+    "qwen2",
+    "qwen3",
+    "qwen3_5",
+    "qwen3_5_moe",
+    "qwen3_5_moe_text",
+    "qwen3_5_text",
+    "qwen3_moe",
+    "qwen3_next",
 }
 
 METHODS = ["full", "freeze", "lora", "oft"]
@@ -134,6 +153,11 @@ class AttentionFunction(StrEnum):
     FA2 = "fa2"
     FA3 = "fa3"
     FA4 = "fa4"
+
+
+def is_flash_attention(implementation: str | None) -> bool:
+    r"""Whether an implementation uses the native FlashAttention packed-batch contract."""
+    return isinstance(implementation, str) and implementation.startswith("flash_attention_")
 
 
 class EngineName(StrEnum):
@@ -1945,7 +1969,7 @@ register_model_group(
             DownloadSource.MODELSCOPE: "OpenBMB/MiniCPM5-1B",
         },
     },
-    template="empty",
+    template="minicpm5",
 )
 
 
@@ -2179,6 +2203,17 @@ register_model_group(
         },
     },
     template="moonlight",
+)
+
+
+register_model_group(
+    models={
+        "MOSS-VL-Instruct-0708": {
+            DownloadSource.DEFAULT: "OpenMOSS-Team/MOSS-VL-Instruct-0708",
+        },
+    },
+    template="moss_vl",
+    multimodal=True,
 )
 
 
@@ -2970,6 +3005,37 @@ register_model_group(
     },
     template="qwen3_5",
     multimodal=True,
+)
+
+
+register_model_group(
+    models={
+        "Qwen3.8-27B": {
+            DownloadSource.DEFAULT: "Qwen/Qwen3.8-27B",
+            DownloadSource.MODELSCOPE: "Qwen/Qwen3.8-27B",
+        },
+        "Qwen3.8-27B-FP8": {
+            DownloadSource.DEFAULT: "Qwen/Qwen3.8-27B-FP8",
+            DownloadSource.MODELSCOPE: "Qwen/Qwen3.8-27B-FP8",
+        },
+    },
+    template="qwen3_8",
+    multimodal=True,
+)
+
+
+register_model_group(
+    models={
+        "Qwen3.8-2.4T-A95B-Thinking": {
+            DownloadSource.DEFAULT: "Qwen/Qwen3.8-2.4T-A95B",
+            DownloadSource.MODELSCOPE: "Qwen/Qwen3.8-2.4T-A95B",
+        },
+        "Qwen3.8-2.4T-A95B-Thinking-FP8": {
+            DownloadSource.DEFAULT: "Qwen/Qwen3.8-2.4T-A95B-FP8",
+            DownloadSource.MODELSCOPE: "Qwen/Qwen3.8-2.4T-A95B-FP8",
+        },
+    },
+    template="qwen3_8",
 )
 
 

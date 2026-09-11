@@ -1,6 +1,6 @@
 ### model
 model_name_or_path: Qwen/Qwen3-4B-Instruct-2507
-flash_attn: fa4
+flash_attn: fa4  # Requires flash-attn-4>=4.0.0b30 and a transformers release with FA4 support.
 trust_remote_code: true
 
 ### method
